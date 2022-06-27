@@ -1,23 +1,54 @@
-import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch
+} from "react-router-dom";
+import React,{useState} from 'react';//importer 
+import Store from './services/Store';
 
-function App() {
+//components
+import Header from './components/Header/Header';
+import Login from './components/Login/Login';
+import Logup from './components/Logup/Logup';
+import Home from './components/Home/Home';
+import Notfound from './components/Notfound/Notfound';
+import Forms from './components/Forms/Forms';
+import Logs from './components/Logs/Logs';
+
+
+function App(){
+  const ss = new Store();
+  const [token ,setToken] = useState(JSON.parse(ss.getStorage("user")));
+  const updateToken =(a)=>{
+    setToken(a);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Header token={token} updateToken={updateToken} />
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/connexion" />
+          </Route>
+          <Route exact path="/connexion">         
+            <Login updateToken={updateToken} />       
+          </Route>
+          <Route exact path="/inscription">
+            <Logup />  
+          </Route>  
+          <Route exact path="/formulaires">
+            <Forms />  
+          </Route> 
+          <Route exact path="/logs">
+            <Logs />  
+          </Route> 
+          <Route exact path="/accueil" component={Home} />  
+          <Route component={Notfound} />
+        </Switch>
+      </Router>
     </div>
   );
 }

@@ -1,0 +1,12 @@
+npx create-react-app myproject
+npm install redux
+npm install react-redux
+npm i react-router-dom
+npm i redux-thunk
+npm install react-hook-form
+
+redux:
+copier l'état, modifier l'état et créer un nouvel état.
+
+middleware : 
+https://www.metaltoad.com/blog/overview-redux-middleware-react-applications
